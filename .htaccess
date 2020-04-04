@@ -1,0 +1,9 @@
+RewriteEngine on
+RewriteBase /~brel05/semestral_project
+
+#presmerovani pro assets
+RewriteRule ^assets/ - [L,QSA]
+RewriteRule \.(js|ico|gif|jpg|jpeg|png|css|swf|pdf|doc|xls|txt)$ - [L,QSA]
+
+#obecna presmerovani pro controllery
+RewriteRule ^(.*) index.php?url=$1 [L,QSA]

@@ -1,0 +1,2 @@
+Autaa
+<?php echo $user ?>
