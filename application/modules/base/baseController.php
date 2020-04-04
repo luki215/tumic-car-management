@@ -12,6 +12,7 @@ abstract class BaseController
     ];
     protected function render(string $templatePath)
     {
+        include "helpers.php";
         extract($this->templateVars);
         include_once __DIR__ . "/baseTemplate.html.php";
     }

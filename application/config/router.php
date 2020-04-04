@@ -2,6 +2,7 @@
 
 namespace Tumic\Config;
 
+use Tumic\Modules\Home\HomeController;
 use Tumic\Modules\Vehicles\VehiclesController;
 use Tumic\Modules\NotFound\NotFoundController;
 
@@ -14,6 +15,9 @@ class Router
         switch ($parts[0]) {
             case "vehicles":
                 $controllerToHandle = VehiclesController::getInstance();
+                break;
+            case "":
+                $controllerToHandle = HomeController::getInstance();
                 break;
             default:
                 $controllerToHandle = NotFoundController::getInstance();
