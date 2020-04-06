@@ -6,6 +6,7 @@ require_once './application/config/config.php';
 require_once './application/lib/autoloader.php';
 \Tumic\Lib\Autoloader::registerSplAutoload();
 
+// store current controller and action, set up by Router
+global $controller, $action;
 
-
-\Tumic\Config\Router::route($_REQUEST["url"]);
+\Tumic\Config\Router::getInstance()->route($_REQUEST["url"]);
