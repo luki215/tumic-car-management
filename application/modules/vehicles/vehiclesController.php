@@ -24,6 +24,7 @@ class VehiclesController extends BaseController
 
     public function create()
     {
-        var_dump($_POST);
+        $vehicle = new Vehicle($_POST["vehicle"]);
+        var_dump($vehicle);
     }
 }

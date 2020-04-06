@@ -18,7 +18,7 @@
 <body>
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Tumič auta</a>
+        <a class="navbar-brand" href="<?php echo linkTo("/") ?>">Tumič auta</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -41,7 +41,7 @@
         </div>
     </nav>
 
-    <div class="container">
+    <div class="container py-3">
         <div class="row">
             <div class="col">
                 <?php include_once $templatePath ?>

@@ -1,9 +1,13 @@
 <?php
 
-use Tumic\Modules\Vehicles\Vehicle;
-?>
-<div class="row">
-    <div class="col-md-6">
+use Tumic\Modules\Vehicles\Vehicle; ?>
+
+
+<div class="card">
+    <div class="card-header">
+        Základnní info
+    </div>
+    <div class="card-body">
         <!-- name -->
         <?php
         include_with_vars(
@@ -128,15 +132,97 @@ use Tumic\Modules\Vehicles\Vehicle;
         );
         ?>
 
-        <!-- $type, $avg_kilometers, $tires_size, $tires_type, $tires_kind, $tires_brand,
-$tires_mm, $archived, $updated_at;
--->
+        <!-- avg kilometers -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_number.html.php",
+            [
+                "label" => "Průměrně najeto kilometrů za měsíc",
+                "name" => "vehicle[avg_kilometers]"
+            ]
+        );
+        ?>
 
-
-
-
+        <!-- archived -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_switch.html.php",
+            [
+                "label" => "Archivováno",
+                "name" => "vehicle[archived]"
+            ]
+        );
+        ?>
     </div>
-    <div class="col-md-6"></div>
 </div>
-<a href="./" class="btn btn-outline-secondary">Zpět</a>
-<button class="btn btn-success">Potvrdit</button>
+
+<div class="card mt-3">
+    <div class="card-header">
+        Pneumatiky
+    </div>
+    <div class="card-body">
+
+        <!-- tires size -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_number.html.php",
+            [
+                "label" => "Velikost",
+                "name" => "vehicle[tires_size]"
+            ]
+        );
+        ?>
+
+        <!-- tires type -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_select.html.php",
+            [
+                "label" => "Typ",
+                "name" => "vehicle[tires_type]",
+                "options" => Vehicle::$tireTypes
+            ]
+        );
+        ?>
+
+        <!-- tires kind -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_select.html.php",
+            [
+                "label" => "Typ",
+                "name" => "vehicle[tires_kind]",
+                "options" => Vehicle::$tireKinds
+            ]
+        );
+        ?>
+
+        <!-- tires brand -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_select.html.php",
+            [
+                "label" => "Typ",
+                "name" => "vehicle[tires_kind]",
+                "options" => Vehicle::$tireBrands
+            ]
+        );
+        ?>
+
+        <!-- tires mm -->
+        <?php
+        include_with_vars(
+            BASE_TEMPLATES . "form_controls/_number.html.php",
+            [
+                "label" => "Vzorek(mm)",
+                "name" => "vehicle[tires_mm]"
+            ]
+        );
+        ?>
+    </div>
+</div>
+
+<div class="mt-3 d-flex justify-content-between">
+    <a href="./" class="btn btn-outline-secondary">Zpět</a>
+    <button class="btn btn-success">Uložit</button>
+</div>

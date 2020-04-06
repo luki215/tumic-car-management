@@ -11,11 +11,15 @@ class Vehicle extends BaseModel
         $note, $type, $avg_kilometers, $tires_size, $tires_type, $tires_kind, $tires_brand,
         $tires_mm, $archived, $updated_at;
 
+    public function __construct($props)
+    {
+        foreach ($props as $name => $val) {
+            $this->$name = $val;
+        }
+    }
 
 
-    /**
-     * enums
-     */
+    #region enums
     public static $colors = [
         "1" => "Modrá",
         "2" => "Červená",
@@ -32,15 +36,30 @@ class Vehicle extends BaseModel
         "4" => "Stroje"
     ];
 
-    /**
-     * static methods
-     */
+    public static $tireTypes = [
+        "1" => "Letní",
+        "2" => "Zimní",
+        "3" => "Celoroční",
+    ];
+
+    public static $tireKinds = [
+        "1" => "Silniční",
+        "2" => "Terénní",
+    ];
+    public static $tireBrands = [
+        "1" => "Michelin",
+        "2" => "Durex",
+    ];
+    #endregion enums
 
 
+    #region static methods
     public static function getAllByType($type)
     {
         $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE type=:type;');
         $query->execute([':type' => $type]);
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
+
+    #endregion static methods
 }
