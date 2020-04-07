@@ -3,6 +3,7 @@
 namespace Tumic\Modules\Base;
 
 use Tumic\Config\Router;
+use Tumic\Lib\ParamConverter;
 use Tumic\Lib\Singleton;
 
 abstract class BaseController
@@ -20,5 +21,10 @@ abstract class BaseController
         $action = Router::getInstance()->action;
 
         include_once __DIR__ . "/baseTemplate.html.php";
+    }
+
+    protected function redirect(string $url)
+    {
+        header("Location: " . $url);
     }
 };

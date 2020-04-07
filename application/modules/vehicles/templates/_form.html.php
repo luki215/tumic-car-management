@@ -14,7 +14,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_text.html.php",
             [
                 "label" => "Název",
-                "name" => "vehicle[name]"
+                "name" => "vehicle[name]",
+                "value" => @$vehicle->name,
+                "error" => @$vehicle->errors["name"]
             ]
         );
         ?>
@@ -26,7 +28,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             [
                 "label" => "Druh",
                 "name" => "vehicle[type]",
-                "options" => Vehicle::$types
+                "options" => Vehicle::$types,
+                "value" => @$vehicle->type,
+                "error" => @$vehicle->errors["type"]
             ]
         );
         ?>
@@ -37,7 +41,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_text.html.php",
             [
                 "label" => "Motor",
-                "name" => "vehicle[engine]"
+                "name" => "vehicle[engine]",
+                "value" => @$vehicle->engine,
+                "error" => @$vehicle->errors["engine"]
             ]
         );
         ?>
@@ -48,7 +54,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_text.html.php",
             [
                 "label" => "VIN",
-                "name" => "vehicle[VIN]"
+                "name" => "vehicle[VIN]",
+                "value" => @$vehicle->VIN,
+                "error" => @$vehicle->errors["VIN"]
             ]
         );
         ?>
@@ -60,7 +68,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_file.html.php",
             [
                 "label" => "Fotka",
-                "name" => "vehicle[photo]"
+                "name" => "vehicle[photo]",
+                "value" => @$vehicle->photo,
+                "error" => @$vehicle->errors["photo"]
             ]
         );
         ?>
@@ -72,7 +82,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             [
                 "label" => "Barva",
                 "name" => "vehicle[color]",
-                "options" => Vehicle::$colors
+                "options" => Vehicle::$colors,
+                "value" => @$vehicle->color,
+                "error" => @$vehicle->errors["color"]
             ]
         );
         ?>
@@ -83,7 +95,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_text.html.php",
             [
                 "label" => "SPZ",
-                "name" => "vehicle[SPZ]"
+                "name" => "vehicle[SPZ]",
+                "value" => @$vehicle->SPZ,
+                "error" => @$vehicle->errors["SPZ"]
             ]
         );
         ?>
@@ -94,18 +108,22 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_date.html.php",
             [
                 "label" => "STK",
-                "name" => "vehicle[STK]"
+                "name" => "vehicle[STK]",
+                "value" => @$vehicle->STK,
+                "error" => @$vehicle->errors["STK"]
             ]
         );
         ?>
 
-        <!-- STK -->
+        <!-- insurance -->
         <?php
         include_with_vars(
             BASE_TEMPLATES . "form_controls/_date.html.php",
             [
                 "label" => "Pojistka",
-                "name" => "vehicle[insurance]"
+                "name" => "vehicle[insurance]",
+                "value" => @$vehicle->insurance,
+                "error" => @$vehicle->errors["insurance"]
             ]
         );
         ?>
@@ -116,7 +134,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_number.html.php",
             [
                 "label" => "Tachometr",
-                "name" => "vehicle[tachometer]"
+                "name" => "vehicle[tachometer]",
+                "value" => @$vehicle->tachometer,
+                "error" => @$vehicle->errors["tachometer"]
             ]
         );
         ?>
@@ -127,7 +147,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_textarea.html.php",
             [
                 "label" => "Poznámka",
-                "name" => "vehicle[note]"
+                "name" => "vehicle[note]",
+                "value" => @$vehicle->note,
+                "error" => @$vehicle->errors["note"]
             ]
         );
         ?>
@@ -138,7 +160,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_number.html.php",
             [
                 "label" => "Průměrně najeto kilometrů za měsíc",
-                "name" => "vehicle[avg_kilometers]"
+                "name" => "vehicle[avg_kilometers]",
+                "value" => @$vehicle->avg_kilometers,
+                "error" => @$vehicle->errors["avg_kilometers"]
             ]
         );
         ?>
@@ -149,7 +173,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_switch.html.php",
             [
                 "label" => "Archivováno",
-                "name" => "vehicle[archived]"
+                "name" => "vehicle[archived]",
+                "value" => @$vehicle->archived,
+                "error" => @$vehicle->errors["archived"]
             ]
         );
         ?>
@@ -168,7 +194,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_number.html.php",
             [
                 "label" => "Velikost",
-                "name" => "vehicle[tires_size]"
+                "name" => "vehicle[tires_size]",
+                "value" => @$vehicle->tires_size,
+                "error" => @$vehicle->errors["tires_size"]
             ]
         );
         ?>
@@ -180,7 +208,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             [
                 "label" => "Typ",
                 "name" => "vehicle[tires_type]",
-                "options" => Vehicle::$tireTypes
+                "options" => Vehicle::$tireTypes,
+                "value" => @$vehicle->tires_type,
+                "error" => @$vehicle->errors["tires_type"]
             ]
         );
         ?>
@@ -192,7 +222,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             [
                 "label" => "Typ",
                 "name" => "vehicle[tires_kind]",
-                "options" => Vehicle::$tireKinds
+                "options" => Vehicle::$tireKinds,
+                "value" => @$vehicle->tires_kind,
+                "error" => @$vehicle->errors["tires_kind"]
             ]
         );
         ?>
@@ -203,8 +235,10 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_select.html.php",
             [
                 "label" => "Typ",
-                "name" => "vehicle[tires_kind]",
-                "options" => Vehicle::$tireBrands
+                "name" => "vehicle[tires_brand]",
+                "options" => Vehicle::$tireBrands,
+                "value" => @$vehicle->tires_brand,
+                "error" => @$vehicle->errors["tires_brand"]
             ]
         );
         ?>
@@ -215,7 +249,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
             BASE_TEMPLATES . "form_controls/_number.html.php",
             [
                 "label" => "Vzorek(mm)",
-                "name" => "vehicle[tires_mm]"
+                "name" => "vehicle[tires_mm]",
+                "value" => @$vehicle->tires_mm,
+                "error" => @$vehicle->errors["tires_mm"]
             ]
         );
         ?>

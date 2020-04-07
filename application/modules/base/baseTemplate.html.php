@@ -42,6 +42,7 @@
     </nav>
 
     <div class="container py-3">
+        <?php include __DIR__ . "/templates/flash_messages/flash_messages.html.php"; ?>
         <div class="row">
             <div class="col">
                 <?php include_once $templatePath ?>

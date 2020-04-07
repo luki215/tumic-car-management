@@ -12,6 +12,8 @@ abstract class BaseModel
     {
     }
 
+
+
     // PHP doesn't have static constructors?! OMG, using hack
     public function static_construct()
     {

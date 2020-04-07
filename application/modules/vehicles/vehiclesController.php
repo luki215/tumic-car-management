@@ -2,6 +2,7 @@
 
 namespace Tumic\Modules\Vehicles;
 
+use Tumic\Lib\FlashMessages;
 use Tumic\Modules\Base\BaseController;
 
 class VehiclesController extends BaseController
@@ -11,9 +12,7 @@ class VehiclesController extends BaseController
     {
 
         $this->templateVars["title"] = "Auta | " . $this->templateVars["title"];
-        $this->templateVars["user"] = "1234";
         $this->templateVars["vehicles"] = Vehicle::getAllByType("car");
-
         parent::render(__DIR__ . '/templates/index.html.php');
     }
 
@@ -24,7 +23,15 @@ class VehiclesController extends BaseController
 
     public function create()
     {
-        $vehicle = new Vehicle($_POST["vehicle"]);
-        var_dump($vehicle);
+        $vehicle_params = $_POST["vehicle"];
+        $vehicle = new Vehicle($vehicle_params);
+        if ($vehicle->save()) {
+            FlashMessages::getInstance()->once("success", "Vozidlo bylo úspěšně vytvořeno");
+            parent::redirect(ROOT . "/vehicles");
+        } else {
+            $this->templateVars["vehicle"] = $vehicle;
+            FlashMessages::getInstance()->once("danger", "Chyba při vytváření");
+            parent::render(__DIR__ . '/templates/new.php');
+        }
     }
 }
