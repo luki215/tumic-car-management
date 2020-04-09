@@ -18,7 +18,7 @@ class Vehicle extends BaseModel
         $note, $type, $avg_kilometers, $tires_size, $tires_type, $tires_kind, $tires_brand,
         $tires_mm, $archived, $updated_at;
 
-    public function __construct($props)
+    public function __construct($props = [])
     {
         foreach ($props as $name => $val) {
             $this->$name = $val;
@@ -41,9 +41,33 @@ class Vehicle extends BaseModel
 
         // update
         if ($this->id) {
+            $query = parent::$pdo->prepare('UPDATE vehicles 
+                SET name = :name, 
+                    engine = :engine,
+                    VIN = :VIN,
+                    photo = :photo,
+                    color = :color,
+                    SPZ = :SPZ,
+                    STK = :STK,
+                    insurance = :insurance,
+                    tachometer = :tachometer,
+                    note = :note,
+                    type = :type,
+                    avg_kilometers = :avg_kilometers,
+                    tires_size = :tires_size,
+                    tires_type = :tires_type,
+                    tires_kind = :tires_kind,
+                    tires_brand = :tires_brand,
+                    tires_mm = :tires_mm,
+                    archived = :archived,
+                    updated_at = :updated_at
+                WHERE id = :id;
+            )
+            ');
+            $res = $query->execute($this->getDbParams());
+            var_dump(parent::$pdo->errorInfo());
         } else {
             // create
-
             $query = parent::$pdo->prepare('INSERT INTO vehicles 
             (
                 name, engine, VIN, photo, color, SPZ, STK, insurance, tachometer, note, type,
@@ -56,21 +80,22 @@ class Vehicle extends BaseModel
                 :archived, :updated_at
             )
             ');
-
-
-            $res = $query->execute($this->getDbParams());
-
-            if (!$res) {
-                return ["unknown" => "Unknown error during save"];
-            } else {
-                return true;
-            }
+            $params = $this->getDbParams();
+            unset($params["id"]);
+            $res = $query->execute($params);
+        }
+        if (!$res) {
+            $this->errors[] = ["unknown" => "Unknown error during save"];
+            return false;
+        } else {
+            return true;
         }
     }
 
     private function getDbParams()
     {
         $vehicle_params = [
+            'id' => $this->id,
             'name' => $this->name,
             'engine' => $this->engine,
             'VIN' => $this->VIN,
@@ -136,12 +161,19 @@ class Vehicle extends BaseModel
 
 
     #region static methods
-    public static function getAllByType($type)
+    public static function getAll()
     {
-        $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE type=:type;');
-        $query->execute([':type' => $type]);
+        $sql = 'SELECT * FROM vehicles ORDER BY archived';
+        $query = parent::$pdo->prepare($sql);
+        $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
+    public static function get($id): Vehicle
+    {
+        $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE id=:id;');
+        $query->execute(['id' => $id]);
+        return $query->fetchObject(__CLASS__);
+    }
     #endregion static methods
 }

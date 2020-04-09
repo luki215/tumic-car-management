@@ -10,15 +10,13 @@ class VehiclesController extends BaseController
 
     public function index()
     {
-
-        $this->templateVars["title"] = "Auta | " . $this->templateVars["title"];
-        $this->templateVars["vehicles"] = Vehicle::getAllByType("car");
+        $this->templateVars["vehicles"] = Vehicle::getAll();
         parent::render(__DIR__ . '/templates/index.html.php');
     }
 
     public function new()
     {
-        parent::render(__DIR__ . '/templates/new.php');
+        parent::render(__DIR__ . '/templates/new.html.php');
     }
 
     public function create()
@@ -31,7 +29,27 @@ class VehiclesController extends BaseController
         } else {
             $this->templateVars["vehicle"] = $vehicle;
             FlashMessages::getInstance()->once("danger", "Chyba při vytváření");
-            parent::render(__DIR__ . '/templates/new.php');
+            parent::render(__DIR__ . '/templates/new.html.php');
+        }
+    }
+
+    public function edit($id)
+    {
+        $this->templateVars["vehicle"] = Vehicle::get($id);
+        parent::render(__DIR__ . '/templates/edit.html.php');
+    }
+
+    public function update($id)
+    {
+        $vehicle_params = $_POST["vehicle"];
+        $vehicle = new Vehicle($vehicle_params);
+        $this->templateVars["vehicle"] = $vehicle;
+        if ($vehicle->save()) {
+            FlashMessages::getInstance()->once("success", "Vozidlo bylo úspěšně upraveno");
+            parent::redirect(ROOT . "/vehicles");
+        } else {
+            FlashMessages::getInstance()->once("danger", "Chyba při úpravě");
+            parent::render(__DIR__ . '/templates/edit.html.php');
         }
     }
 }
