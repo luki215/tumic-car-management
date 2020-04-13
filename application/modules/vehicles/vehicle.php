@@ -173,7 +173,8 @@ class Vehicle extends BaseModel
     {
         $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE id=:id;');
         $query->execute(['id' => $id]);
-        return $query->fetchObject(__CLASS__);
+        $res = $query->fetchObject(__CLASS__);
+        return $res ? $res : null;
     }
     #endregion static methods
 }

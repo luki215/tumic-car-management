@@ -60,7 +60,3 @@ use Tumic\Modules\Vehicles\Vehicle;
         </tbody>
     </table>
 </div>
-
-<?php
-
-?>

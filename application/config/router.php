@@ -6,6 +6,7 @@ use Tumic\Lib\Singleton;
 use Tumic\Modules\Home\HomeController;
 use Tumic\Modules\Vehicles\VehiclesController;
 use Tumic\Modules\NotFound\NotFoundController;
+use Tumic\Modules\Users\UsersController;
 
 class Router
 {
@@ -17,11 +18,14 @@ class Router
         $parts = explode('/', $url, 3);
         $controllerToHandle = null;
         switch ($parts[0]) {
+            case "":
+                $controllerToHandle = HomeController::getInstance();
+                break;
             case "vehicles":
                 $controllerToHandle = VehiclesController::getInstance();
                 break;
-            case "":
-                $controllerToHandle = HomeController::getInstance();
+            case "users":
+                $controllerToHandle = UsersController::getInstance();
                 break;
             default:
                 $controllerToHandle = NotFoundController::getInstance();
@@ -31,7 +35,9 @@ class Router
         $action = count($parts) === 1 || @$parts[1] === "" ? "index" : $parts[1];
         $this->controller = $parts[0];
         $this->action = $action;
+
         if (is_callable(array($controllerToHandle, $action))) {
+            $controllerToHandle->beforeAction();
             $controllerToHandle->$action(@$parts[2]);
         } else {
             NotFoundController::getInstance()->index();
