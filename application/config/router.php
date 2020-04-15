@@ -6,6 +6,7 @@ use Tumic\Lib\Singleton;
 use Tumic\Modules\Home\HomeController;
 use Tumic\Modules\Vehicles\VehiclesController;
 use Tumic\Modules\NotFound\NotFoundController;
+use Tumic\Modules\Todos\TodosController;
 use Tumic\Modules\Users\UsersController;
 
 class Router
@@ -26,6 +27,9 @@ class Router
                 break;
             case "users":
                 $controllerToHandle = UsersController::getInstance();
+                break;
+            case "todos":
+                $controllerToHandle = TodosController::getInstance();
                 break;
             default:
                 $controllerToHandle = NotFoundController::getInstance();

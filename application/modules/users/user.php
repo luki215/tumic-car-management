@@ -99,6 +99,20 @@ class User extends BaseModel
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
+    // source for <select> options
+    public static function getAllOptions()
+    {
+        $sql = 'SELECT * FROM users ORDER BY role';
+        $query = parent::$pdo->prepare($sql);
+        $query->execute();
+        $res = $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+        $options = [];
+        foreach ($res as $user) {
+            $options[$user->id] = $user->name;
+        };
+        return $options;
+    }
+
     public static function getByFBId($fb_id): ?User
     {
         $query = parent::$pdo->prepare('SELECT * FROM users WHERE fb_id=:fb_id;');

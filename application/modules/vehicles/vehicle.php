@@ -169,6 +169,20 @@ class Vehicle extends BaseModel
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
+    // source for <select> options
+    public static function getAllOptions()
+    {
+        $sql = 'SELECT * FROM vehicles WHERE archived=false';
+        $query = parent::$pdo->prepare($sql);
+        $query->execute();
+        $res = $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+        $options = [];
+        foreach ($res as $vehicle) {
+            $options[$vehicle->id] = $vehicle->name . " (" . $vehicle->SPZ . ")";
+        };
+        return $options;
+    }
+
     public static function get($id): Vehicle
     {
         $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE id=:id;');
