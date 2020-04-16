@@ -12,6 +12,7 @@ class TodosController extends BaseController
 
     public function index()
     {
+        $this->allowOnly("confirmed");
         $this->templateVars["todos"] = Todo::getAll();
         parent::render(__DIR__ . "/templates/index.html.php");
     }
@@ -19,17 +20,20 @@ class TodosController extends BaseController
 
     public function new()
     {
+        $this->allowOnly("admin", "mechanic");
+        $this->templateVars["todo"] = new Todo(["state" => "1", "priority" => 3]);
         parent::render(__DIR__ . '/templates/new.html.php');
     }
 
     public function create()
     {
+        $this->allowOnly("admin", "mechanic");
         $todo_params = $_POST["todo"];
         $todo = new Todo($todo_params);
         $todo->assignee_id = $this->templateVars["currentUser"]->id;
         if ($todo->save()) {
             FlashMessages::getInstance()->once("success", "Úkol úspěšně vytvořen");
-            parent::redirect(ROOT . "/todos");
+            parent::redirect(ROOT . "/todos/");
         } else {
             $this->templateVars["todo"] = $todo;
             FlashMessages::getInstance()->once("danger", "Chyba při vytváření");
@@ -39,17 +43,19 @@ class TodosController extends BaseController
 
     public function edit($id)
     {
+        $this->allowOnly("admin", "mechanic");
         $this->templateVars["todo"] = Todo::get($id);
         parent::render(__DIR__ . '/templates/edit.html.php');
     }
 
     public function update($id)
     {
+        $this->allowOnly("admin", "mechanic");
         $todo_params = $_POST["todo"];
         $todo = new Todo($todo_params);
         if ($todo->save()) {
             FlashMessages::getInstance()->once("success", "Úkol byl úspěšně upraven.");
-            parent::redirect(ROOT . "/todos");
+            parent::redirect(ROOT . "/todos/");
         } else {
             $this->templateVars["todo"] = $todo;
             FlashMessages::getInstance()->once("danger", "Chyba při úpravě");
@@ -59,6 +65,7 @@ class TodosController extends BaseController
 
     public function destroy($id)
     {
+        $this->allowOnly("admin", "mechanic");
         if (Todo::destroy($id)) {
             FlashMessages::getInstance()->once("success", "Úkol odstraněn.");
         } else {

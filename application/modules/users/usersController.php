@@ -22,12 +22,14 @@ class UsersController extends BaseController
 
     public function index()
     {
+        $this->allowOnly("admin");
         $this->templateVars["users"] = User::getAll();
         parent::render(__DIR__ . "/templates/index.html.php");
     }
 
     public function updateRole($id)
     {
+        $this->allowOnly("admin");
         $user = User::get($id);
         $user->role = $_POST["user"]["role"];
         if ($user->save()) {
@@ -40,6 +42,7 @@ class UsersController extends BaseController
 
     public function destroy($id)
     {
+        $this->allowOnly("admin");
         if (User::destroy($id)) {
             FlashMessages::getInstance()->once("success", "Uživatel odstraněn.");
         } else {
@@ -50,6 +53,7 @@ class UsersController extends BaseController
 
     public function login()
     {
+        $this->allowOnly("anonymous");
         $helper = $this->fb->getRedirectLoginHelper();
 
         $permissions = []; // Optional permissions
@@ -59,6 +63,7 @@ class UsersController extends BaseController
 
     public function loginCallback()
     {
+        $this->allowOnly("anonymous");
 
         $helper = $this->fb->getRedirectLoginHelper();
 
@@ -91,7 +96,7 @@ class UsersController extends BaseController
                     parent::redirect(ROOT . "/");
                 } else {
                     FlashMessages::getInstance()->once("danger", "Chyba v přihlášení. Zkuste to prosím znovu.");
-                    parent::redirect(ROOT . "/users/login");
+                    parent::redirect(ROOT . "/users/login/");
                 }
             } else {
                 // user exists
@@ -101,7 +106,14 @@ class UsersController extends BaseController
             }
         } catch (Exception $e) {
             FlashMessages::getInstance()->once("danger", "Chyba v přihlášení. Zkuste to prosím znovu.");
-            parent::redirect(ROOT . "/users/login");
+            parent::redirect(ROOT . "/users/login/");
         }
+    }
+
+    public function logout()
+    {
+        $this->allowOnly("logged");
+        session_destroy();
+        parent::redirect(ROOT . "/users/login/");
     }
 }

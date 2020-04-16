@@ -8,6 +8,7 @@ class HomeController extends BaseController
 {
     public function index()
     {
+        $this->allowOnly("confirmed");
         parent::render(__DIR__ . "/home.html.php");
     }
 }

@@ -32,15 +32,18 @@
                     <a class="nav-link" href="<?php echo linkTo("/"); ?>">Domů</a>
                 </li>
                 <li class="nav-item <?php echo $controller === 'vehicles' ? 'active' : '' ?>">
-                    <a class="nav-link" href="<?php echo linkTo("/vehicles") ?>">Auta</a>
+                    <a class="nav-link" href="<?php echo linkTo("/vehicles/") ?>">Auta</a>
                 </li>
                 <li class="nav-item <?php echo $controller === 'todos' ? 'active' : '' ?>">
-                    <a class="nav-link" href="<?php echo linkTo("/todos") ?>" aria-disabled="true">Úkoly</a>
+                    <a class="nav-link" href="<?php echo linkTo("/todos/") ?>" aria-disabled="true">Úkoly</a>
                 </li>
                 <li class="nav-item <?php echo $controller === 'users' ? 'active' : '' ?>">
-                    <a class="nav-link" href="<?php echo linkTo("/users") ?>" aria-disabled="true">Uživatelé</a>
+                    <a class="nav-link" href="<?php echo linkTo("/users/") ?>" aria-disabled="true">Uživatelé</a>
                 </li>
             </ul>
+            <?php if ($currentUser) { ?>
+                <a class="btn btn-outline-danger" href="<?php echo linkTo("/users/logout") ?>" aria-disabled="true">Odhlásit se</a>
+            <?php } ?>
         </div>
     </nav>
 

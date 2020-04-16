@@ -2,8 +2,10 @@
 
 namespace Tumic\Config;
 
+use Exception;
 use Tumic\Lib\Singleton;
 use Tumic\Modules\Home\HomeController;
+use Tumic\Modules\NotAllowed\NotAllowedController;
 use Tumic\Modules\Vehicles\VehiclesController;
 use Tumic\Modules\NotFound\NotFoundController;
 use Tumic\Modules\Todos\TodosController;
@@ -31,6 +33,9 @@ class Router
             case "todos":
                 $controllerToHandle = TodosController::getInstance();
                 break;
+            case "notAllowed":
+                $controllerToHandle = NotAllowedController::getInstance();
+                break;
             default:
                 $controllerToHandle = NotFoundController::getInstance();
                 break;
@@ -43,6 +48,9 @@ class Router
         if (is_callable(array($controllerToHandle, $action))) {
             $controllerToHandle->beforeAction();
             $controllerToHandle->$action(@$parts[2]);
+            if (!$controllerToHandle->permissionsSet) {
+                throw new Exception("Must set permissions for this action");
+            }
         } else {
             NotFoundController::getInstance()->index();
         }

@@ -183,12 +183,27 @@ class Vehicle extends BaseModel
         return $options;
     }
 
-    public static function get($id): Vehicle
+    public static function get($id): ?Vehicle
     {
         $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE id=:id;');
         $query->execute(['id' => $id]);
         $res = $query->fetchObject(__CLASS__);
         return $res ? $res : null;
+    }
+
+    public static function destroy($id): bool
+    {
+        $query = parent::$pdo->prepare('DELETE FROM vehicles
+                WHERE id = :id;
+        ');
+        $res = $query->execute(["id" => $id]);
+
+        if (!$res) {
+            $this->errors[] = ["unknown" => "Unknown error during save"];
+            return false;
+        } else {
+            return true;
+        }
     }
     #endregion static methods
 }

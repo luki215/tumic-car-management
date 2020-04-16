@@ -37,7 +37,10 @@ use Tumic\Modules\Vehicles\Vehicle;
             <?php
             foreach ($vehicles as $vehicle) { ?>
                 <tr class="<?php echo $vehicle->archived ? "text-decoration-through table-dark" : "" ?>">
-                    <td><a href="./edit/<?php p($vehicle->id) ?>" class="btn btn-info">Detail</a> </td>
+                    <td>
+                        <a href="./edit/<?php p($vehicle->id) ?>" class="btn btn-info">Detail</a>
+                        <a href="./destroy/<?php p($vehicle->id) ?>" class="btn btn-danger">Odstranit</a>
+                    </td>
                     <td><?php echo Vehicle::$types[$vehicle->type] ?></td>
                     <td><?php p($vehicle->name) ?></td>
                     <td><?php p($vehicle->VIN) ?></td>

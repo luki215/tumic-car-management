@@ -5,7 +5,7 @@ use Tumic\Modules\Users\User;
 ?>
 <div class="d-flex justify-content-between align-items-center mb-1">
     <h1 class="mb-0">Úkoly</h1>
-    <a href="./todos/new" class=" btn btn-success">
+    <a href="./new" class=" btn btn-success">
         <i class="fa fa-plus"></i> Nový úkol
     </a>
 </div>

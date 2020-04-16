@@ -259,6 +259,6 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
 </div>
 
 <div class="mt-3 d-flex justify-content-between">
-    <a href="./" class="btn btn-outline-secondary">Zpět</a>
+    <a href="<?php p(linkTo("/vehicles/")) ?>" class="btn btn-outline-secondary">Zpět</a>
     <button class="btn btn-success">Uložit</button>
 </div>
