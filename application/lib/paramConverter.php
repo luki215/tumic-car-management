@@ -19,6 +19,14 @@ class ParamConverter
         $this->converters["bool"] = function ($x) {
             return $x ? 1 : 0;
         };
+
+        $this->converters["nullable"] = function ($x) {
+            return $x == "" ? null : $x;
+        };
+
+        $this->converters["array"] = function ($x) {
+            return is_array($x) ? implode(",", $x) : $x;
+        };
     }
 
     /**
@@ -41,7 +49,9 @@ class ParamConverter
     private function convertParam($params, $keys, $modifier)
     {
         foreach ($keys as $key) {
-            $params[$key] = $modifier(@$params[$key]);
+            if (isset($params[$key])) {
+                $params[$key] = $modifier(@$params[$key]);
+            }
         }
         return $params;
     }

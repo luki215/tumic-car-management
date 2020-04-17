@@ -32,3 +32,11 @@ function boolTxt($val)
 {
     return $val ? "Ano" : "Ne";
 }
+
+function addParamsToCurrentLink($params)
+{
+    $get = $_GET;
+    unset($get["url"]);
+    $params = array_merge($get, $params);
+    return "?" . http_build_query($params);
+}

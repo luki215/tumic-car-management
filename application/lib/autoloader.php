@@ -41,6 +41,6 @@ class Autoloader
     public static function registerSplAutoload()
     {
         spl_autoload_register(array('Tumic\Lib\Autoloader', 'autoloadWithNamespaces'));
-        require_once __DIR__ . '/php-graph-sdk-5.0.0/src/Facebook/autoload.php';
+        require_once __DIR__ . '/php-graph-sdk-5.7.0/src/Facebook/autoload.php';
     }
 }

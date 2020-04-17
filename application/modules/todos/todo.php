@@ -23,7 +23,6 @@ class Todo extends BaseModel
         $this->setValidators("deadline", new Required(), new Date(strtotime("today")));
         $this->setValidators("state", new Required());
         $this->setValidators("priority", new Required());
-        $this->setValidators("vehicle_id", new Required());
         $this->setValidators("assignee_id", new Required());
         $this->setValidators("assigned_id", new Required());
     }
@@ -64,10 +63,8 @@ class Todo extends BaseModel
             ');
             $params = $this->getDbParams();
             unset($params["id"]);
-            var_dump($params);
             $res = $query->execute($params);
             $this->id = self::$pdo->lastInsertId();
-            var_dump(parent::$pdo->errorInfo());
             return $res;
         }
         if (!$res) {
@@ -93,6 +90,7 @@ class Todo extends BaseModel
 
         $todo_params = ParamConverter::getInstance()->convertParams($todo_params, [
             "datetime" => ["deadline"],
+            "nullable" => ["vehicle_id"]
         ]);
 
         return $todo_params;
@@ -133,6 +131,50 @@ class Todo extends BaseModel
         $query->execute();
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
+
+
+    public static function getAllBy($params)
+    {
+        $params = ParamConverter::getInstance()->convertParams($params, [
+            "array" => ["state", "priority", "vehicle_id", "assigned_id"]
+        ]);
+
+        $sql = 'SELECT t.*, 
+                    vehicle.name as vehicle_name, 
+                    vehicle.SPZ as vehicle_spz, 
+                    assignee.name as assignee_name, 
+                    assigned.name as assigned_name
+                FROM todos t
+                LEFT JOIN users assignee on (assignee.id = t.assignee_id)
+                LEFT JOIN users assigned on (assigned.id = t.assigned_id)
+                LEFT JOIN vehicles vehicle on (vehicle.id = t.vehicle_id)';
+        if (count($params) > 0) {
+            $sql .= 'WHERE ';
+            $first = true;
+            foreach ($params as $param => $value) {
+                if ($value) {
+                    if (!$first) $sql .= "and ";
+                    if ($value === "null") {
+                        $sql .= "$param is null ";
+                    } else {
+                        $sql .= " $param in ($value) ";
+                    }
+                }
+                if ($first) $first = false;
+            }
+        }
+
+
+        $sql .= 'ORDER BY deadline
+                ;';
+        $query = parent::$pdo->prepare($sql);
+
+        $query->execute($params);
+        $res = $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+
+        return $res;
+    }
+
 
     public static function get($id): ?Todo
     {

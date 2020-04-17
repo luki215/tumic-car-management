@@ -5,15 +5,33 @@ namespace Tumic\Modules\Todos;
 use Tumic\Lib\FlashMessages;
 use Tumic\Modules\Base\BaseController;
 
-
 class TodosController extends BaseController
 {
     public $fb;
 
     public function index()
     {
+
+        /**
+         * Returns only array entries listed in a whitelist
+         *
+         * @param array $array original array to operate on
+         * @param array $whitelist keys you want to keep
+         * @return array
+         */
+        function arrayWhitelist($array, $whitelist)
+        {
+            return array_intersect_key(
+                $array,
+                array_flip($whitelist)
+            );
+        }
+
+
         $this->allowOnly("confirmed");
-        $this->templateVars["todos"] = Todo::getAll();
+        $filterParams = arrayWhitelist($_GET, ["assigned_id", "priority", "state", "vehicle_id"]);
+
+        $this->templateVars["todos"] = Todo::getAllBy($filterParams);
         parent::render(__DIR__ . "/templates/index.html.php");
     }
 
