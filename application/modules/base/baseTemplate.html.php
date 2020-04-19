@@ -41,7 +41,7 @@
                     <a class="nav-link" href="<?php echo linkTo("/users/") ?>" aria-disabled="true">Uživatelé</a>
                 </li>
             </ul>
-            <?php if ($currentUser) { ?>
+            <?php if (isset($currentUser)) { ?>
                 <a class="btn btn-outline-danger" href="<?php echo linkTo("/users/logout") ?>" aria-disabled="true">Odhlásit se</a>
             <?php } ?>
         </div>

@@ -68,7 +68,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                         [
                             "label" => "Přiřazené vozidlo",
                             "name" => "vehicle_id",
-                            "options" => array_merge(Vehicle::getAllOptions(), ["null" => "Npeřiřazeno"]),
+                            "options" => array_merge(Vehicle::getAllOptions(), ["null" => "Nepřiřazeno"]),
                             "value" => @$_GET["vehicle_id"]
                         ]
                     );

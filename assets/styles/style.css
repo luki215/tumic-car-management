@@ -1,3 +1,19 @@
 .text-decoration-through {
     text-decoration: line-through;
 }
+
+
+.table-2-cols tr:not(:last-child) {
+    border-bottom: 1px solid rgba(0,0,0,.125);     
+}
+
+.table-2-cols td {
+    padding: 5px 10px;     
+}
+
+.table-2-cols td:first-child {
+    font-weight: bold;
+    background: rgba(0,0,0,.03)     
+
+
+}

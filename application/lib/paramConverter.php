@@ -49,9 +49,7 @@ class ParamConverter
     private function convertParam($params, $keys, $modifier)
     {
         foreach ($keys as $key) {
-            if (isset($params[$key])) {
-                $params[$key] = $modifier(@$params[$key]);
-            }
+            $params[$key] = $modifier(@$params[$key]);
         }
         return $params;
     }

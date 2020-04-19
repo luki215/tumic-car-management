@@ -1,45 +1,46 @@
 <?php
 
-namespace Tumic\Modules\Vehicles;
+namespace Tumic\Modules\Vehicles\Events;
 
 use Tumic\Lib\FlashMessages;
 use Tumic\Modules\Base\BaseController;
+use Tumic\Modules\Vehicles\Vehicle;
 
-class VehiclesController extends BaseController
+class VehiclesEventsController extends BaseController
 {
 
-    public function index()
-    {
-        $this->allowOnly("confirmed");
-        $this->templateVars["vehicles"] = Vehicle::getAll();
-        parent::render(__DIR__ . '/templates/index.html.php');
-    }
-
-    public function show($id)
-    {
-        $this->allowOnly("confirmed");
-        $this->templateVars["vehicle"] = Vehicle::get($id);
-        parent::render(__DIR__ . '/templates/show.html.php');
-    }
-
-    public function new()
+    public function new($vehicle_id, $type)
     {
         $this->allowOnly("admin", "mechanic");
-        parent::render(__DIR__ . '/templates/new.html.php');
+        $this->templateVars["vehicleId"] = $vehicle_id;
+
+        switch ($type) {
+            case "repair":
+                parent::render(__DIR__ . '/templates/repair/new.html.php');
+                break;
+            case "oil_replacement":
+                //parent::render(__DIR__ . '/templates/oil_replacement/new.html.php');
+                break;
+            case "accident":
+                //parent::render(__DIR__ . '/templates/accident/new.html.php');
+                break;
+        };
     }
 
-    public function create()
+    public function create($vehicle_id)
     {
         $this->allowOnly("admin", "mechanic");
-        $vehicle_params = $_POST["vehicle"];
-        $vehicle = new Vehicle($vehicle_params);
-        if ($vehicle->save()) {
+        $vehicleEvent_params = $_POST["vehicleEvent"];
+
+        $vehicleEvent = new VehicleEvent($vehicleEvent_params);
+        if ($vehicleEvent->save()) {
             FlashMessages::getInstance()->once("success", "Vozidlo bylo úspěšně vytvořeno");
-            parent::redirect(ROOT . "/vehicles/");
+            parent::redirect(ROOT . "/vehicles/show/" . $vehicle_id);
         } else {
-            $this->templateVars["vehicle"] = $vehicle;
+            $this->templateVars["vehicleEvent"] = $vehicleEvent;
+            $this->templateVars["vehicleId"] = $vehicle_id;
             FlashMessages::getInstance()->once("danger", "Chyba při vytváření");
-            parent::render(__DIR__ . '/templates/new.html.php');
+            parent::render(__DIR__ . '/templates/repair/new.html.php');
         }
     }
 
@@ -60,8 +61,6 @@ class VehiclesController extends BaseController
             FlashMessages::getInstance()->once("success", "Vozidlo bylo úspěšně upraveno");
             parent::redirect(ROOT . "/vehicles/");
         } else {
-            var_dump($vehicle->errors);
-
             FlashMessages::getInstance()->once("danger", "Chyba při úpravě");
             parent::render(__DIR__ . '/templates/edit.html.php');
         }

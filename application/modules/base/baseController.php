@@ -82,7 +82,6 @@ abstract class BaseController
         if (!in_array($user_role, $allowed_roles)) {
             // not logged users to login
             if ($current_user === null) {
-                var_dump($current_user);
                 $this->redirect(ROOT . "/users/login/");
             } else {
                 // others to not allowed
@@ -97,7 +96,7 @@ abstract class BaseController
             throw new Exception("Must set permissions for this action");
         }
 
-        include "helpers.php";
+        include_once "helpers.php";
         extract($this->templateVars);
 
         $controller = Router::getInstance()->controller;

@@ -27,7 +27,6 @@ class TodosController extends BaseController
             );
         }
 
-
         $this->allowOnly("confirmed");
         $filterParams = arrayWhitelist($_GET, ["assigned_id", "priority", "state", "vehicle_id"]);
 

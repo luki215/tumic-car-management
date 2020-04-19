@@ -148,18 +148,23 @@ class Todo extends BaseModel
                 LEFT JOIN users assignee on (assignee.id = t.assignee_id)
                 LEFT JOIN users assigned on (assigned.id = t.assigned_id)
                 LEFT JOIN vehicles vehicle on (vehicle.id = t.vehicle_id)';
+
+        $params = array_filter($params, function ($x) {
+            return $x;
+        });
+
         if (count($params) > 0) {
             $sql .= 'WHERE ';
             $first = true;
             foreach ($params as $param => $value) {
-                if ($value) {
-                    if (!$first) $sql .= "and ";
-                    if ($value === "null") {
-                        $sql .= "$param is null ";
-                    } else {
-                        $sql .= " $param in ($value) ";
-                    }
+
+                if (!$first) $sql .= "and ";
+                if (strpos($value, "null") !== false) {
+                    $sql .= "$param is null ";
+                } else {
+                    $sql .= " $param in ($value) ";
                 }
+
                 if ($first) $first = false;
             }
         }

@@ -1,0 +1,145 @@
+<?php
+
+namespace Tumic\Modules\Vehicles\Events;
+
+use PDO;
+use Tumic\Lib\ParamConverter;
+use Tumic\Modules\Base\BaseModel;
+use Tumic\Modules\Base\Validable\Validable;
+use Tumic\Modules\Base\Validable\Validators\Required;
+
+class VehicleEvent extends BaseModel
+{
+    use Validable;
+
+    public $id, $vehicle_id, $tachometer, $date, $note, $type, $updated_at;
+
+    public function __construct($props = [])
+    {
+        foreach ($props as $name => $val) {
+            $this->$name = $val;
+        }
+
+        $this->setValidators("vehicle_id", new Required());
+        $this->setValidators("date", new Required());
+        $this->setValidators("type", new Required());
+    }
+
+    public function save()
+    {
+        if (!$this->validate()) {
+            return false;
+        }
+
+
+        // update
+        if ($this->id) {
+            $query = parent::$pdo->prepare('UPDATE vehicle_events
+                SET
+                    vehicle_id = :vehicle_id,
+                    tachometer = :tachometer,
+                    date = :date,
+                    note = :note,
+                    type = :type,
+                    updated_at = :updated_at
+                WHERE id = :id;
+            )
+            ');
+            $res = $query->execute($this->getDbParams());
+        } else {
+            // create
+            $query = parent::$pdo->prepare('INSERT INTO vehicle_events 
+            (
+                vehicle_id, tachometer, date, note, type, updated_at
+            )
+            VALUES (
+                :vehicle_id, :tachometer, :date, :note, :type, :updated_at
+            )
+            ');
+            $params = $this->getDbParams();
+            unset($params["id"]);
+            $res = $query->execute($params);
+        }
+        if (!$res) {
+            $this->errors[] = ["unknown" => "Unknown error during save"];
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    private function getDbParams()
+    {
+        $vehicle_params = [
+            'id' => $this->id,
+            'vehicle_id' => $this->vehicle_id,
+            'tachometer' => $this->tachometer,
+            'date' => $this->date,
+            'note' => $this->note,
+            'type' => $this->type,
+            'updated_at' => $this->updated_at,
+        ];
+
+        $vehicle_params = ParamConverter::getInstance()->convertParams($vehicle_params, [
+            "datetime" => ["date"]
+        ]);
+
+        return $vehicle_params;
+    }
+
+    public static $types = [
+        "1" => "Oprava",
+        "2" => "Výměna oleje",
+        "3" => "Nehoda"
+    ];
+
+    #endregion enums
+
+
+    #region static methods
+    public static function getAll()
+    {
+        $sql = 'SELECT * FROM vehicles ORDER BY archived';
+        $query = parent::$pdo->prepare($sql);
+        $query->execute();
+        return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+    }
+
+    // source for <select> options
+    public static function getAllOptions()
+    {
+        $sql = 'SELECT * FROM vehicles WHERE archived=false';
+        $query = parent::$pdo->prepare($sql);
+        $query->execute();
+        $res = $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
+        $options = [];
+        foreach ($res as $vehicle) {
+            $options[$vehicle->id] = $vehicle->name . " (" . $vehicle->SPZ . ")";
+        };
+        return $options;
+    }
+
+    public static function get($id): ?Vehicle
+    {
+        $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE id=:id;');
+        $query->execute(['id' => $id]);
+        $res = $query->fetchObject(__CLASS__);
+        return $res ? $res : null;
+    }
+
+    public static function destroy($id): bool
+    {
+        $query = parent::$pdo->prepare('DELETE FROM vehicles
+                WHERE id = :id;
+        ');
+        $res = $query->execute(["id" => $id]);
+
+        if (!$res) {
+            $this->errors[] = ["unknown" => "Unknown error during save"];
+            return false;
+        } else {
+            return true;
+        }
+    }
+    #endregion static methods
+}
