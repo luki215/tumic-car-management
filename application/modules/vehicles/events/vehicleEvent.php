@@ -97,31 +97,17 @@ class VehicleEvent extends BaseModel
 
 
     #region static methods
-    public static function getAll()
+    public static function getByType($type)
     {
-        $sql = 'SELECT * FROM vehicles ORDER BY archived';
+        $sql = 'SELECT * FROM vehicle_events  WHERE type=:type';
         $query = parent::$pdo->prepare($sql);
-        $query->execute();
+        $query->execute(["type" => $type]);
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 
-    // source for <select> options
-    public static function getAllOptions()
+    public static function get($id): ?VehicleEvent
     {
-        $sql = 'SELECT * FROM vehicles WHERE archived=false';
-        $query = parent::$pdo->prepare($sql);
-        $query->execute();
-        $res = $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
-        $options = [];
-        foreach ($res as $vehicle) {
-            $options[$vehicle->id] = $vehicle->name . " (" . $vehicle->SPZ . ")";
-        };
-        return $options;
-    }
-
-    public static function get($id): ?Vehicle
-    {
-        $query = parent::$pdo->prepare('SELECT * FROM vehicles WHERE id=:id;');
+        $query = parent::$pdo->prepare('SELECT * FROM vehicle_events WHERE id=:id;');
         $query->execute(['id' => $id]);
         $res = $query->fetchObject(__CLASS__);
         return $res ? $res : null;
@@ -129,7 +115,7 @@ class VehicleEvent extends BaseModel
 
     public static function destroy($id): bool
     {
-        $query = parent::$pdo->prepare('DELETE FROM vehicles
+        $query = parent::$pdo->prepare('DELETE FROM vehicle_events
                 WHERE id = :id;
         ');
         $res = $query->execute(["id" => $id]);

@@ -4,6 +4,7 @@ namespace Tumic\Modules\Vehicles;
 
 use Tumic\Lib\FlashMessages;
 use Tumic\Modules\Base\BaseController;
+use Tumic\Modules\Vehicles\Events\VehicleEvent;
 
 class VehiclesController extends BaseController
 {
@@ -19,6 +20,9 @@ class VehiclesController extends BaseController
     {
         $this->allowOnly("confirmed");
         $this->templateVars["vehicle"] = Vehicle::get($id);
+        $this->templateVars["repairs"] = VehicleEvent::getByType(1);
+        $this->templateVars["oil_replacements"] = VehicleEvent::getByType(2);
+        $this->templateVars["accidents"] = VehicleEvent::getByType(3);
         parent::render(__DIR__ . '/templates/show.html.php');
     }
 

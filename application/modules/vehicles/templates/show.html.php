@@ -3,14 +3,13 @@
 use Tumic\Modules\Vehicles\Vehicle; ?>
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-4 mb-4">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Informace</span>
                 <a href="../edit/<?php p($vehicle->id) ?>" class="btn btn-warning">Upravit</a>
             </div>
             <table class="table-2-cols">
-
                 <tr>
                     <td>Typ</td>
                     <td><?php echo Vehicle::$types[$vehicle->type] ?></td>
@@ -84,13 +83,83 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
         </div>
     </div>
     <div class="col-md-8">
+        <!-- Repairs -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span>Opravy</span>
                 <a href="../<?php p($vehicle->id) ?>/events/new/repair" class="btn btn-success">Nová</a>
             </div>
-            <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Poznámka</th>
+                        <th>Stav km</th>
+                        <th>Datum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <?php foreach ($repairs as $repair) { ?>
+                    <tr>
+                        <td><?php p($repair->note) ?></td>
+                        <td><?php p($repair->tachometer) ?></td>
+                        <td><?php p(dateTxt($repair->date)) ?></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/edit/<?php p($repair->id) ?>" class="btn btn-warning">Upravit</a></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($repair->id) ?>" class="btn btn-danger">Odstranit</a></td>
+                    </tr>
+                <?php } ?>
+            </table>
+        </div>
+
+        <!-- Oil replacements -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Výměny oleje</span>
+                <a href="../<?php p($vehicle->id) ?>/events/new/oil_replacement" class="btn btn-success">Nová</a>
             </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Poznámka</th>
+                        <th>Stav km</th>
+                        <th>Datum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <?php foreach ($oil_replacements as $oil_replacement) { ?>
+                    <tr>
+                        <td><?php p($oil_replacement->note) ?></td>
+                        <td><?php p($oil_replacement->tachometer) ?></td>
+                        <td><?php p(dateTxt($oil_replacement->date)) ?></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($oil_replacement->id) ?>" class="btn btn-danger">Odstranit</a></td>
+                    </tr>
+                <?php } ?>
+            </table>
+        </div>
+        <!-- Accidents -->
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>Nehody</span>
+                <a href="../<?php p($vehicle->id) ?>/events/new/accident" class="btn btn-success">Nová</a>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Poznámka</th>
+                        <th>Stav km</th>
+                        <th>Datum</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <?php foreach ($accidents as $accidents) { ?>
+                    <tr>
+                        <td><?php p($accidents->note) ?></td>
+                        <td><?php p($accidents->tachometer) ?></td>
+                        <td><?php p(dateTxt($accidents->date)) ?></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($accidents->id) ?>" class="btn btn-danger">Odstranit</a></td>
+                    </tr>
+                <?php } ?>
+            </table>
         </div>
     </div>
+
 </div>
