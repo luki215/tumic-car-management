@@ -40,3 +40,12 @@ function addParamsToCurrentLink($params)
     $params = array_merge($get, $params);
     return "?" . http_build_query($params);
 }
+
+
+function printVIN($vin)
+{
+    p(substr($vin, 0, 15 - 7));
+    echo "<strong>";
+    p(substr($vin, 15 - 7));
+    echo "</strong>";
+}

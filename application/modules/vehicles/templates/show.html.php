@@ -20,7 +20,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 </tr>
                 <tr>
                     <td>VIN</td>
-                    <td><?php p($vehicle->VIN) ?></td>
+                    <td><?php printVIN($vehicle->VIN) ?></td>
                 </tr>
                 <tr>
                     <td>Barva</td>
@@ -130,6 +130,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                         <td><?php p($oil_replacement->note) ?></td>
                         <td><?php p($oil_replacement->tachometer) ?></td>
                         <td><?php p(dateTxt($oil_replacement->date)) ?></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/edit/<?php p($repair->id) ?>" class="btn btn-warning">Upravit</a></td>
                         <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($oil_replacement->id) ?>" class="btn btn-danger">Odstranit</a></td>
                     </tr>
                 <?php } ?>
@@ -155,6 +156,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                         <td><?php p($accidents->note) ?></td>
                         <td><?php p($accidents->tachometer) ?></td>
                         <td><?php p(dateTxt($accidents->date)) ?></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/edit/<?php p($repair->id) ?>" class="btn btn-warning">Upravit</a></td>
                         <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($accidents->id) ?>" class="btn btn-danger">Odstranit</a></td>
                     </tr>
                 <?php } ?>

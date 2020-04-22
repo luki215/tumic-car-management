@@ -97,11 +97,11 @@ class VehicleEvent extends BaseModel
 
 
     #region static methods
-    public static function getByType($type)
+    public static function getByType($vehicle_id, $type)
     {
-        $sql = 'SELECT * FROM vehicle_events  WHERE type=:type';
+        $sql = 'SELECT * FROM vehicle_events  WHERE type=:type and vehicle_id=:vehicle_id';
         $query = parent::$pdo->prepare($sql);
-        $query->execute(["type" => $type]);
+        $query->execute(["type" => $type, "vehicle_id" => $vehicle_id]);
         return $query->fetchAll(PDO::FETCH_CLASS, __CLASS__);
     }
 

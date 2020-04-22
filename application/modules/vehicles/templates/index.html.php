@@ -43,12 +43,20 @@ use Tumic\Modules\Vehicles\Vehicle;
                     </td>
                     <td><?php echo Vehicle::$types[$vehicle->type] ?></td>
                     <td><?php p($vehicle->name) ?></td>
-                    <td><?php p($vehicle->VIN) ?></td>
+                    <td><?php printVIN($vehicle->VIN); ?></td>
                     <td><?php echo Vehicle::$colors[$vehicle->color] ?></td>
                     <td><?php p($vehicle->engine) ?></td>
                     <td><?php p($vehicle->SPZ) ?></td>
-                    <td><?php p(dateTxt($vehicle->STK)) ?></td>
-                    <td><?php p(dateTxt($vehicle->insurance)) ?></td>
+                    <td><?php p(dateTxt($vehicle->STK)) ?>
+                        <?php if (strtotime($vehicle->STK) - 60 * 60 * 24 * 30 * 2 < strtotime('now')) { ?>
+                            <span class="badge badge-danger">Končí</span>
+                        <? } ?>
+                    </td>
+                    <td><?php p(dateTxt($vehicle->insurance)) ?>
+                        <?php if (strtotime($vehicle->insurance) - 60 * 60 * 24 * 30 * 2 < strtotime('now')) { ?>
+                            <span class="badge badge-danger">Končí</span>
+                        <? } ?>
+                    </td>
                     <td><?php p($vehicle->tachometer) ?></td>
                     <td><?php p($vehicle->note) ?></td>
                     <td><?php p($vehicle->avg_kilometers) ?></td>
