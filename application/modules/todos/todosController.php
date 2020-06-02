@@ -47,7 +47,7 @@ class TodosController extends BaseController
         $this->allowOnly("admin", "mechanic");
         $todo_params = $_POST["todo"];
         $todo = new Todo($todo_params);
-        $todo->assignee_id = $this->templateVars["currentUser"]->id;
+        $todo->assignee_id = $this->templateVars['currentUser']->id;
         if ($todo->save()) {
             FlashMessages::getInstance()->once("success", "Úkol úspěšně vytvořen");
             parent::redirect(ROOT . "/todos/");
@@ -68,15 +68,23 @@ class TodosController extends BaseController
     public function update($id)
     {
         $this->allowOnly("admin", "mechanic");
-        $todo_params = $_POST["todo"];
+        $todo_params = @$_POST["todo"];
+        if (!$todo_params) {
+            parent::redirect(ROOT . "/todos/edit/" . $id);
+        }
         $todo = new Todo($todo_params);
         if ($todo->save()) {
             FlashMessages::getInstance()->once("success", "Úkol byl úspěšně upraven.");
             parent::redirect(ROOT . "/todos/");
         } else {
+            $todo_new = @$todo->errors["race_condition"];
+            if ($todo_new) {
+                $this->templateVars["todo_new"] = $todo_new;
+                FlashMessages::getInstance()->once("danger", "Někdo jiný mezitím upravil tuto položku.");
+            }
             $this->templateVars["todo"] = $todo;
             FlashMessages::getInstance()->once("danger", "Chyba při úpravě");
-            // parent::render(__DIR__ . '/templates/edit.html.php');
+            parent::render(__DIR__ . '/templates/edit.html.php');
         }
     }
 

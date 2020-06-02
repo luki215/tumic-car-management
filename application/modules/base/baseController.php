@@ -13,7 +13,9 @@ abstract class BaseController
     use Singleton;
     // to detect whether the permissions were set for the action
     public $permissionsSet = false;
-
+    /**
+     * @var $templateVars - variables accessible in templates
+     */
     public $templateVars = [
         "title" => "Tumič auta"
     ];

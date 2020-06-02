@@ -68,8 +68,6 @@ class Router
             $params = [@$parts[1], @$parts[4]];
         }
 
-
-
         $this->controller = $parts[0];
         $this->action = $action;
 

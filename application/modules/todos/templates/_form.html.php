@@ -6,6 +6,7 @@ use Tumic\Modules\Vehicles\Vehicle;
 
 ?>
 
+<input type="hidden" name="todo[updated_at]" value="<?php p(@$todo->updated_at) ?>">
 <div class="card mt-3">
     <div class="card-header">
         Todo
@@ -22,6 +23,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                 "label" => "Text",
                 "name" => "todo[text]",
                 "value" => @$todo->text,
+                "conflict_value" => @$todo_new->text,
                 "error" => @$todo->errors["text"]
             ]
         );
@@ -50,6 +52,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                 "name" => "todo[state]",
                 "options" => Todo::$states,
                 "value" => @$todo->state,
+                "conflict_value" => @$todo_new->state,
                 "error" => @$todo->errors["state"]
             ]
         );
@@ -64,6 +67,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                 "name" => "todo[priority]",
                 "options" => Todo::$priorities,
                 "value" => @$todo->priority,
+                "conflict_value" => @$todo_new->priority,
                 "error" => @$todo->errors["priority"]
             ]
         );
@@ -79,6 +83,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                 "name" => "todo[vehicle_id]",
                 "options" => Vehicle::getAllOptions(),
                 "value" => @$todo->vehicle_id,
+                "conflict_value" => @$todo_new->vehicle_id,
                 "error" => @$todo->errors["vehicle_id"]
             ]
         );
@@ -92,6 +97,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                 "name" => "todo[assigned_id]",
                 "options" => User::getAllOptions(),
                 "value" => @$todo->assigned_id,
+                "conflict_value" => @$todo_new->assigned_id,
                 "error" => @$todo->errors["assigned_id"]
             ]
         );

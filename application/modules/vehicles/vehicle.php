@@ -65,10 +65,10 @@ class Vehicle extends BaseModel
             )
             ');
             $res = $query->execute($this->getDbParams());
-            var_dump(parent::$pdo->errorInfo());
-            echo "<pre>";
-            var_dump($query->debugDumpParams());
-            echo "</pre>";
+            // var_dump(parent::$pdo->errorInfo());
+            // echo "<pre>";
+            // var_dump($query->debugDumpParams());
+            // echo "</pre>";
         } else {
             // create
             $query = parent::$pdo->prepare('INSERT INTO vehicles 

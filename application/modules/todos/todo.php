@@ -29,11 +29,16 @@ class Todo extends BaseModel
 
     public function save()
     {
-
         if (!$this->validate()) {
             return false;
         }
 
+        $current_inst = $this->get($this->id);
+        if ($current_inst->updated_at != $this->updated_at) {
+            $this->errors["race_condition"] = $current_inst;
+            $this->updated_at = $current_inst->updated_at;
+            return false;
+        }
 
         // update
         if ($this->id) {
@@ -95,7 +100,6 @@ class Todo extends BaseModel
 
         return $todo_params;
     }
-
 
     #region enums
     public static $priorities = [
