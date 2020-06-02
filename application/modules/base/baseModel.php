@@ -12,7 +12,15 @@ abstract class BaseModel
     {
     }
 
-
+    protected function check_lock()
+    {
+        $current_inst = $this->get($this->id);
+        if ($current_inst->updated_at != $this->updated_at) {
+            $this->errors["race_condition"] = $current_inst;
+            $this->updated_at = $current_inst->updated_at;
+            return false;
+        }
+    }
 
     // PHP doesn't have static constructors?! OMG, using hack
     public function static_construct()
@@ -21,6 +29,8 @@ abstract class BaseModel
             self::$pdo = new PDO(DB_CONNECTION_STRING, DB_USERNAME, DB_PASSWORD);
         }
     }
+
+    public abstract static function get($id);
 }
 
 BaseModel::static_construct();

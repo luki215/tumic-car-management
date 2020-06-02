@@ -1,4 +1,4 @@
-<?php $conflict = isset($conflict_value) && $conflict_value != $value ?>
+<?php $conflict = isset($conflict_value) && dateTxt($conflict_value) != dateTxt($value) ?>
 
 <div class="form-group">
     <label for="form-control-<?php echo $name; ?>"><?php echo $label; ?></label>

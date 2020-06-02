@@ -64,8 +64,11 @@ class VehiclesController extends BaseController
             FlashMessages::getInstance()->once("success", "Vozidlo bylo úspěšně upraveno");
             parent::redirect(ROOT . "/vehicles/");
         } else {
-            var_dump($vehicle->errors);
-
+            $vehicle_new = @$vehicle->errors["race_condition"];
+            if ($vehicle_new) {
+                $this->templateVars["vehicle_new"] = $vehicle_new;
+                FlashMessages::getInstance()->once("danger", "Někdo jiný mezitím upravil tuto položku.");
+            }
             FlashMessages::getInstance()->once("danger", "Chyba při úpravě");
             parent::render(__DIR__ . '/templates/edit.html.php');
         }

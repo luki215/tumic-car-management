@@ -8,6 +8,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
         Základnní info
     </div>
     <div class="card-body">
+        <input type="hidden" name="vehicle[updated_at]" value="<?php p(@$vehicle->updated_at) ?>">
         <!-- name -->
         <?php
         include_with_vars(
@@ -16,6 +17,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Název",
                 "name" => "vehicle[name]",
                 "value" => @$vehicle->name,
+                "conflict_value" => @$vehicle_new->name,
                 "error" => @$vehicle->errors["name"]
             ]
         );
@@ -30,6 +32,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "name" => "vehicle[type]",
                 "options" => Vehicle::$types,
                 "value" => @$vehicle->type,
+                "conflict_value" => @$vehicle_new->type,
                 "error" => @$vehicle->errors["type"]
             ]
         );
@@ -43,6 +46,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Motor",
                 "name" => "vehicle[engine]",
                 "value" => @$vehicle->engine,
+                "conflict_value" => @$vehicle_new->engine,
                 "error" => @$vehicle->errors["engine"]
             ]
         );
@@ -56,21 +60,8 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "VIN",
                 "name" => "vehicle[VIN]",
                 "value" => @$vehicle->VIN,
+                "conflict_value" => @$vehicle_new->VIN,
                 "error" => @$vehicle->errors["VIN"]
-            ]
-        );
-        ?>
-
-
-        <!-- Photo -->
-        <?php
-        include_with_vars(
-            BASE_TEMPLATES . "form_controls/_file.html.php",
-            [
-                "label" => "Fotka",
-                "name" => "vehicle[photo]",
-                "value" => @$vehicle->photo,
-                "error" => @$vehicle->errors["photo"]
             ]
         );
         ?>
@@ -84,6 +75,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "name" => "vehicle[color]",
                 "options" => Vehicle::$colors,
                 "value" => @$vehicle->color,
+                "conflict_value" => @$vehicle_new->color,
                 "error" => @$vehicle->errors["color"]
             ]
         );
@@ -97,6 +89,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "SPZ",
                 "name" => "vehicle[SPZ]",
                 "value" => @$vehicle->SPZ,
+                "conflict_value" => @$vehicle_new->SPZ,
                 "error" => @$vehicle->errors["SPZ"]
             ]
         );
@@ -110,6 +103,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "STK",
                 "name" => "vehicle[STK]",
                 "value" => @$vehicle->STK,
+                "conflict_value" => @$vehicle_new->STK,
                 "error" => @$vehicle->errors["STK"]
             ]
         );
@@ -123,6 +117,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Pojistka",
                 "name" => "vehicle[insurance]",
                 "value" => @$vehicle->insurance,
+                "conflict_value" => @$vehicle_new->insurance,
                 "error" => @$vehicle->errors["insurance"]
             ]
         );
@@ -136,6 +131,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Tachometr",
                 "name" => "vehicle[tachometer]",
                 "value" => @$vehicle->tachometer,
+                "conflict_value" => @$vehicle_new->tachometer,
                 "error" => @$vehicle->errors["tachometer"]
             ]
         );
@@ -149,6 +145,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Poznámka",
                 "name" => "vehicle[note]",
                 "value" => @$vehicle->note,
+                "conflict_value" => @$vehicle_new->note,
                 "error" => @$vehicle->errors["note"]
             ]
         );
@@ -162,6 +159,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Průměrně najeto kilometrů za měsíc",
                 "name" => "vehicle[avg_kilometers]",
                 "value" => @$vehicle->avg_kilometers,
+                "conflict_value" => @$vehicle_new->avg_kilometers,
                 "error" => @$vehicle->errors["avg_kilometers"]
             ]
         );
@@ -175,6 +173,7 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                 "label" => "Archivováno",
                 "name" => "vehicle[archived]",
                 "value" => @$vehicle->archived,
+                "conflict_value" => @$vehicle_new->archived,
                 "error" => @$vehicle->errors["archived"]
             ]
         );

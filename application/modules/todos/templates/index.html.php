@@ -103,7 +103,7 @@ use Tumic\Modules\Vehicles\Vehicle;
                             <td><?php p($todo->assigned_name) ?></td>
                             <td>
                                 <?php if ($todo->vehicle_id) {
-                                    p($todo->vehicle_name . " (" . $todo->vehicle_spz . ")");
+                                    p($todo->vehicle_name . " (" . $todo->vehicle_spz . ")");
                                 } else {
                                     p("Nepřiřazeno");
                                 }

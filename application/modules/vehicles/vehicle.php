@@ -38,6 +38,7 @@ class Vehicle extends BaseModel
             return false;
         }
 
+        if (parent::check_lock() === false) return false;
 
         // update
         if ($this->id) {
@@ -60,7 +61,7 @@ class Vehicle extends BaseModel
                     tires_brand = :tires_brand,
                     tires_mm = :tires_mm,
                     archived = :archived,
-                    updated_at = :updated_at
+                    updated_at = NOW()
                 WHERE id = :id;
             )
             ');
@@ -116,8 +117,7 @@ class Vehicle extends BaseModel
             'tires_kind' => $this->tires_kind,
             'tires_brand' => $this->tires_brand,
             'tires_mm' => $this->tires_mm,
-            'archived' => $this->archived,
-            'updated_at' => $this->updated_at,
+            'archived' => $this->archived
         ];
 
         $vehicle_params = ParamConverter::getInstance()->convertParams($vehicle_params, [
