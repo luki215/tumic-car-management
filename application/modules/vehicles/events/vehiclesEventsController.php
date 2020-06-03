@@ -40,7 +40,17 @@ class VehiclesEventsController extends BaseController
             $this->templateVars["vehicleEvent"] = $vehicleEvent;
             $this->templateVars["vehicleId"] = $vehicle_id;
             FlashMessages::getInstance()->once("danger", "Chyba při vytváření");
-            parent::render(__DIR__ . '/templates/repair/new.html.php');
+            switch ($vehicleEvent_params["type"]) {
+                case 1:
+                    parent::render(__DIR__ . '/templates/repair/new.html.php');
+                    break;
+                case 2:
+                    parent::render(__DIR__ . '/templates/oil_replacement/new.html.php');
+                    break;
+                case 3:
+                    parent::render(__DIR__ . '/templates/accident/new.html.php');
+                    break;
+            };
         }
     }
 
@@ -74,8 +84,14 @@ class VehiclesEventsController extends BaseController
             FlashMessages::getInstance()->once("success", "Údálost byla úspěšně upravena");
             parent::redirect(ROOT . "/vehicles/show/" . $vehicle_id);
         } else {
+            $vehicleEvent_new = @$vehicleEvent->errors["race_condition"];
+            if ($vehicleEvent_new) {
+                $this->templateVars["vehicleEvent_new"] = $vehicleEvent_new;
+                FlashMessages::getInstance()->once("danger", "Někdo jiný mezitím upravil tuto položku.");
+            }
+
             FlashMessages::getInstance()->once("danger", "Chyba při úpravě");
-            switch ($this->templateVars["vehicleEvent"]->type) {
+            switch ($vehicleEvent_params["type"]) {
                 case 1:
                     parent::render(__DIR__ . '/templates/repair/edit.html.php');
                     break;

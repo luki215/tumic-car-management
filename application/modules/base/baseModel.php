@@ -14,12 +14,16 @@ abstract class BaseModel
 
     protected function check_lock()
     {
-        $current_inst = $this->get($this->id);
-        if ($current_inst->updated_at != $this->updated_at) {
-            $this->errors["race_condition"] = $current_inst;
-            $this->updated_at = $current_inst->updated_at;
-            return false;
+
+        if ($this->id) {
+            $current_inst = $this->get($this->id);
+            if ($current_inst->updated_at != $this->updated_at) {
+                $this->errors["race_condition"] = $current_inst;
+                $this->updated_at = $current_inst->updated_at;
+                return false;
+            }
         }
+        return true;
     }
 
     // PHP doesn't have static constructors?! OMG, using hack

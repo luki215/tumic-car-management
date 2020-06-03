@@ -9,6 +9,7 @@ include_with_vars(
         "label" => "Popis",
         "name" => "vehicleEvent[note]",
         "value" => @$vehicleEvent->note,
+        "conflict_value" => @$vehicleEvent_new->note,
         "error" => @$vehicleEvent->errors["note"]
     ]
 );
@@ -22,6 +23,7 @@ include_with_vars(
         "label" => "Najeto kilometrů",
         "name" => "vehicleEvent[tachometer]",
         "value" => @$vehicleEvent->tachometer,
+        "conflict_value" => @$vehicleEvent_new->tachometer,
         "error" => @$vehicleEvent->errors["tachometer"]
     ]
 );
@@ -36,6 +38,7 @@ include_with_vars(
         "label" => "Datum",
         "name" => "vehicleEvent[date]",
         "value" => @$vehicleEvent->date,
+        "conflict_value" => @$vehicleEvent_new->date,
         "error" => @$vehicleEvent->errors["date"]
     ]
 );

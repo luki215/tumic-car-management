@@ -1,7 +1,6 @@
 <input type="hidden" name="vehicleEvent[type]" value="3">
 <input type="hidden" name="vehicleEvent[vehicle_id]" value="<?php p($vehicleId); ?>">
 
-<!-- note -->
 <?php
 include_with_vars(
     BASE_TEMPLATES . "form_controls/_textarea.html.php",
@@ -9,6 +8,7 @@ include_with_vars(
         "label" => "Popis",
         "name" => "vehicleEvent[note]",
         "value" => @$vehicleEvent->note,
+        "conflict_value" => @$vehicleEvent_new->note,
         "error" => @$vehicleEvent->errors["note"]
     ]
 );
@@ -22,6 +22,7 @@ include_with_vars(
         "label" => "Najeto kilometrů",
         "name" => "vehicleEvent[tachometer]",
         "value" => @$vehicleEvent->tachometer,
+        "conflict_value" => @$vehicleEvent_new->tachometer,
         "error" => @$vehicleEvent->errors["tachometer"]
     ]
 );
@@ -36,12 +37,11 @@ include_with_vars(
         "label" => "Datum",
         "name" => "vehicleEvent[date]",
         "value" => @$vehicleEvent->date,
+        "conflict_value" => @$vehicleEvent_new->date,
         "error" => @$vehicleEvent->errors["date"]
     ]
 );
 ?>
-
-
 
 
 <div class="mt-3 d-flex justify-content-between">

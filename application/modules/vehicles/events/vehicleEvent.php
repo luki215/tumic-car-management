@@ -31,6 +31,7 @@ class VehicleEvent extends BaseModel
             return false;
         }
 
+        if (!parent::check_lock()) return false;
 
         // update
         if ($this->id) {
@@ -41,7 +42,7 @@ class VehicleEvent extends BaseModel
                     date = :date,
                     note = :note,
                     type = :type,
-                    updated_at = :updated_at
+                    updated_at = NOW()
                 WHERE id = :id;
             )
             ');
@@ -50,10 +51,10 @@ class VehicleEvent extends BaseModel
             // create
             $query = parent::$pdo->prepare('INSERT INTO vehicle_events 
             (
-                vehicle_id, tachometer, date, note, type, updated_at
+                vehicle_id, tachometer, date, note, type
             )
             VALUES (
-                :vehicle_id, :tachometer, :date, :note, :type, :updated_at
+                :vehicle_id, :tachometer, :date, :note, :type
             )
             ');
             $params = $this->getDbParams();
@@ -61,6 +62,10 @@ class VehicleEvent extends BaseModel
             $res = $query->execute($params);
         }
         if (!$res) {
+            // var_dump(parent::$pdo->errorInfo());
+            // echo "<pre>";
+            // var_dump($query->debugDumpParams());
+            // echo "</pre>";
             $this->errors[] = ["unknown" => "Unknown error during save"];
             return false;
         } else {
@@ -77,7 +82,6 @@ class VehicleEvent extends BaseModel
             'date' => $this->date,
             'note' => $this->note,
             'type' => $this->type,
-            'updated_at' => $this->updated_at,
         ];
 
         $vehicle_params = ParamConverter::getInstance()->convertParams($vehicle_params, [
