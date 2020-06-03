@@ -113,15 +113,17 @@ use Tumic\Modules\Vehicles\Vehicle;
                             <td><?php p(dateTxt($todo->created_at)) ?></td>
                             <td><?php p($todo->text) ?></td>
                             <td><a href="<?php p(linkTo("/todos/edit/" . $todo->id)) ?>" class="btn btn-warning">Upravit</a></td>
-                            <td><a href="<?php p(linkTo("/todos/destroy/" . $todo->id)) ?>" class="btn btn-danger">Odstranit</a></td>
-                        </tr>
-                    <?php } ?>
-                </tbody>
+                            <td>
+                                <form method="post" action="<?php p(linkTo("/todos/destroy/" . $todo->id)) ?>">
+                                    <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+                                    <button class="btn btn-danger">Odstranit</button>
+                                </form>
+                            </td>
+                        </tr> <?php } ?> </tbody>
             </table>
         </div>
     </div>
 </div>
-
 <div class="row mt-3">
     <div class="col d-flex justify-content-center">
         <?php include BASE_TEMPLATES . "/pagination.html.php" ?>

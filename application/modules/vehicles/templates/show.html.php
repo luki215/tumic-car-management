@@ -104,7 +104,12 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                         <td><?php p($repair->tachometer) ?></td>
                         <td><?php p(dateTxt($repair->date)) ?></td>
                         <td> <a href="../<?php p($vehicle->id) ?>/events/edit/<?php p($repair->id) ?>" class="btn btn-warning">Upravit</a></td>
-                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($repair->id) ?>" class="btn btn-danger">Odstranit</a></td>
+                        <td>
+                            <form method="post" action="../<?php p($vehicle->id) ?>/events/destroy/<?php p($repair->id) ?>">
+                                <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+                                <button class="btn btn-danger">Odstranit</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php } ?>
             </table>
@@ -130,8 +135,13 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                         <td><?php p($oil_replacement->note) ?></td>
                         <td><?php p($oil_replacement->tachometer) ?></td>
                         <td><?php p(dateTxt($oil_replacement->date)) ?></td>
-                        <td> <a href="../<?php p($vehicle->id) ?>/events/edit/<?php p($oil_replacement->id) ?>" class="btn btn-warning">Upravit</a></td>
-                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($oil_replacement->id) ?>" class="btn btn-danger">Odstranit</a></td>
+                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($oil_replacement->id) ?>" class="btn btn-warning">Upravit</a></td>
+                        <td>
+                            <form method="post" action="../<?php p($vehicle->id) ?>/events/destroy/<?php p($oil_replacement->id) ?>">
+                                <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+                                <button class="btn btn-danger">Odstranit</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php } ?>
             </table>
@@ -157,7 +167,12 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
                         <td><?php p($accidents->tachometer) ?></td>
                         <td><?php p(dateTxt($accidents->date)) ?></td>
                         <td> <a href="../<?php p($vehicle->id) ?>/events/edit/<?php p($accidents->id) ?>" class="btn btn-warning">Upravit</a></td>
-                        <td> <a href="../<?php p($vehicle->id) ?>/events/destroy/<?php p($accidents->id) ?>" class="btn btn-danger">Odstranit</a></td>
+                        <td>
+                            <form method="post" action="../<?php p($vehicle->id) ?>/events/destroy/<?php p($accidents->id) ?>">
+                                <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+                                <button class="btn btn-danger">Odstranit</button>
+                            </form>
+                        </td>
                     </tr>
                 <?php } ?>
             </table>

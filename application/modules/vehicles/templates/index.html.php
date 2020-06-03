@@ -39,7 +39,11 @@ use Tumic\Modules\Vehicles\Vehicle;
                 <tr class="<?php echo $vehicle->archived ? "text-decoration-through table-dark" : "" ?>">
                     <td>
                         <a href="./show/<?php p($vehicle->id) ?>" class="btn btn-info">Detail</a>
-                        <a href="./destroy/<?php p($vehicle->id) ?>" class="btn btn-danger">Odstranit</a>
+
+                        <form method="post" action="./destroy/<?php p($vehicle->id) ?>">
+                            <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+                            <button class="btn btn-danger">Odstranit</button>
+                        </form>
                     </td>
                     <td><?php echo Vehicle::$types[$vehicle->type] ?></td>
                     <td><?php p($vehicle->name) ?></td>

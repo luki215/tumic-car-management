@@ -38,7 +38,12 @@ use Tumic\Modules\Users\User;
                             ?>
                         </form>
                     </td>
-                    <td><a href="<?php p(linkTo("/users/destroy/" . $user->id)) ?>" class="btn btn-danger">Odstranit</a></td>
+                    <td>
+                        <form method="post" action="<?php p(linkTo("/users/destroy/" . $user->id)) ?>">
+                            <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+                            <button class="btn btn-danger">Odstranit</button>
+                        </form>
+                    </td>
                 </tr>
             <?php } ?>
         </tbody>
