@@ -1,6 +1,7 @@
 <?php
 
 use Tumic\Modules\Vehicles\Vehicle; ?>
+<?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
 
 
 <div class="card">
@@ -8,7 +9,9 @@ use Tumic\Modules\Vehicles\Vehicle; ?>
         Základnní info
     </div>
     <div class="card-body">
-        <input type="hidden" name="vehicle[updated_at]" value="<?php p(@$vehicle->updated_at) ?>">
+        <?php if ($vehicle->id) { ?>
+            <input type="hidden" name="vehicle[updated_at]" value="<?php p(@$vehicle->updated_at) ?>">
+        <?php } ?>
         <!-- name -->
         <?php
         include_with_vars(

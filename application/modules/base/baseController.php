@@ -7,6 +7,8 @@ use Tumic\Config\Router;
 use Tumic\Lib\ParamConverter;
 use Tumic\Lib\Singleton;
 use Tumic\Modules\Users\User;
+use Tumic\Lib\FlashMessages;
+
 
 abstract class BaseController
 {
@@ -23,6 +25,25 @@ abstract class BaseController
     public function beforeAction()
     {
         $this->templateVars['currentUser'] = User::get(@$_SESSION["user_id"]);
+
+        if (empty($_SESSION['token'])) {
+            $_SESSION['token'] = bin2hex(random_bytes(32));
+        }
+        $this->templateVars["csrfToken"] = $_SESSION['token'];
+
+        if (
+            $_SERVER['REQUEST_METHOD'] === "POST" ||
+            $_SERVER['REQUEST_METHOD'] === "PUT" ||
+            $_SERVER['REQUEST_METHOD'] === "PATCH" ||
+            $_SERVER['REQUEST_METHOD'] === "DELETE"
+        ) {
+
+            if (@$_REQUEST["csrfToken"] != $_SESSION['token']) {
+                FlashMessages::getInstance()->once("danger", "Chyba v ověření bezpečnosti. Zkuste to prosím znovu.");
+                $this->permissionsSet = true;
+                $this->redirect(ROOT . "/");
+            };
+        }
     }
 
     /**

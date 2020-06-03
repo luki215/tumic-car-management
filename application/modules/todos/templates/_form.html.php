@@ -6,7 +6,12 @@ use Tumic\Modules\Vehicles\Vehicle;
 
 ?>
 
-<input type="hidden" name="todo[updated_at]" value="<?php p(@$todo->updated_at) ?>">
+<?php if ($todo->id) { ?>
+    <input type="hidden" name="todo[updated_at]" value="<?php p(@$todo->updated_at) ?>">
+<?php } ?>
+
+<?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
+
 <div class="card mt-3">
     <div class="card-header">
         Todo

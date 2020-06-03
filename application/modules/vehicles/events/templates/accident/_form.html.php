@@ -1,5 +1,6 @@
 <input type="hidden" name="vehicleEvent[type]" value="3">
 <input type="hidden" name="vehicleEvent[vehicle_id]" value="<?php p($vehicleId); ?>">
+<?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
 
 <?php
 include_with_vars(

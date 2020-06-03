@@ -23,6 +23,7 @@ use Tumic\Modules\Users\User;
                     <td><?php echo $user->name ?></td>
                     <td>
                         <form action="<?php p(linkTo("/users/updateRole/" . $user->id)) ?>" method="post" class="roleForm">
+                            <?php include(BASE_TEMPLATES . "form_controls/_csrf_token.html.php") ?>
                             <?php
                             include_with_vars(
                                 BASE_TEMPLATES . "form_controls/_select.html.php",
